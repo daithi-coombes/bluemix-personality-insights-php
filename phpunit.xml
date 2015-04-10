@@ -13,7 +13,7 @@
         >
 
     <testsuites>
-        <testsuite name="Your package's test suit">
+        <testsuite name="Bluemix Personality Insights PHP">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

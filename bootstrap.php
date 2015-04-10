@@ -17,5 +17,14 @@ $singleton;
  */
 spl_autoload_register(function($class){
 
+    $filename = str_replace(
+        "\\", "/",
+        str_replace('PersonalityInsightsPHP', 'lib', $class)
+    ).'.php';
+
+    if (is_readable($filename))
+        require_once($filename);
 });
 require_once('vendor/autoload.php');
+
+$config = Config::getInstance();

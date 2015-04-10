@@ -1,0 +1,81 @@
+<?php
+/**
+ * The main configuration singleton instance.
+ *
+ * usage: `$config = \PersonalityInsightsPHP\Config::getInstance()`
+ * params: `$params = $config->getParams()`
+ */
+namespace PersonalityInsightsPHP;
+use Symfony\Component\Yaml\Yaml;
+
+/**
+ * Config singleton instance.
+ */
+class Config
+{
+    /** @var Config The current singleton instance */
+    protected static $instance;
+    /** @var array An array of configuration pull from config file */
+    protected $_configuration;
+
+    /**
+     * Config singleton.
+     * @param string $configFile The yaml config file relative to project root.
+     * @return Config The *Singleton* instance.
+     */
+    public static function getInstance($configFile='config.yml')
+    {
+        static $instance = null;
+        if (null === $instance) {
+            $instance = new static();
+        }
+
+        $configuration = Yaml::parse(file_get_contents($configFile));
+        $instance->setParams($configuration);
+
+        return $instance;
+    }
+
+    /**
+     * Get the current configuration parameters.
+     * @return array Returns an associative array.
+     */
+    public function getParams()
+    {
+        return $this->_configuration;
+    }
+
+    /**
+     * Sets the paramaters.
+     * @param array $configuration An associative array of paramaters.
+     * @return Config Returns this instance.
+     */
+    public function setParams($configuration)
+    {
+        $this->_configuration = $configuration;
+        return $this;
+    }
+
+    /**
+     * Block creation using new keyword.
+     */
+    protected function __construct()
+    {
+    }
+
+    /**
+     * Block cloning.
+     * @return void
+     */
+    private function __clone()
+    {
+    }
+
+    /**
+     * Block serialization.
+     * @return void
+     */
+    private function __wakeup()
+    {
+    }
+}

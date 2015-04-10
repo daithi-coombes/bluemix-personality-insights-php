@@ -2,7 +2,8 @@
     "require-dev": {
         "friendsofsymfony/rest-bundle"      : "*",
         "phpunit/phpunit"                   : "*",
-        "phpdocumentor/phpdocumentor"       : "2.*"
+        "phpdocumentor/phpdocumentor"       : "2.*",
+        "symfony/yaml"                      : "*"
     },
     "scripts": {
         "test": "phpunit",

@@ -19,12 +19,16 @@ class TestConfig extends \PHPUnit_Framework_TestCase
     public function testConfigFile()
     {
 
-        $actual = \PersonalityInsightsPHP\Config::getInstance()
+        $actual = \PersonalityInsightsPHP\Config::getInstance('config.yml.dist')
             ->getParams();
         $expected = array(
             'credentials' => array(
-                'api-key' => '',
-                'api-secret' => '',
+                'username'  => '',
+                'password'  => '',
+                'name'      => 'Personality Insights-xb',
+                'label'     => 'personality_insights',
+                'plan'      => 'IBM Watson Personality Insights Monthly Plan',
+                'url'       => 'https://gateway.watsonplatform.net/personality-insights/api',
             ),
         );
 

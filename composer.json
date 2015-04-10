@@ -1,5 +1,6 @@
 {
     "require-dev": {
-        "friendsofsymfony/rest-bundle": "*"
+        "friendsofsymfony/rest-bundle": "*",
+        "phpunit/phpunit": "*"
     }
 }

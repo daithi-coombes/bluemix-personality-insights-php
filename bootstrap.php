@@ -5,6 +5,7 @@
  * @author daithi coombes <webeire@gmail.com>
  */
 namespace PersonalityInsightsPHP;
+use FOS\RestBundle;
 
 /** @var Singleton Config The runtime configuration */
 $singleton;

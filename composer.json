@@ -5,6 +5,7 @@
         "phpdocumentor/phpdocumentor"       : "2.*"
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "build": "phpdoc"
     }
 }

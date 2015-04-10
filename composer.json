@@ -1,6 +1,10 @@
 {
     "require-dev": {
-        "friendsofsymfony/rest-bundle": "*",
-        "phpunit/phpunit": "*"
+        "friendsofsymfony/rest-bundle"      : "*",
+        "phpunit/phpunit"                   : "*",
+        "phpdocumentor/phpdocumentor"       : "2.*"
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

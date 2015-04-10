@@ -1,18 +1,22 @@
 <?php
 /**
- * Bootstrap the API and autoloaders
+ * Bootstrap the API and autoloaders.
+ *
+ * @package PersonalityInstightsPHP
  * @author daithi coombes <webeire@gmail.com>
  */
-namespace = BlueMix\PersonalityInsightsPHP;
+namespace PersonalityInsightsPHP;
 
 /** @var Singleton Config The runtime configuration */
 $singleton;
 
 
 /**
- * Autoloader
+ * Autoloader.
+ * Anonymous function.
+ * @param string The full classname with namespace.
  */
-spl_autoload(function($class){
+spl_autoload_register(function($class){
 
 });
 require_once('vendor/autoload.php');

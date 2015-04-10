@@ -1,3 +1,11 @@
 credentials:
-  api-key: ''
-  api-secret: ''
+
+  # required configuration
+  username: ''
+  password: ''
+
+  # optional configuration
+  name: "Personality Insights-xb"
+  label: "personality_insights"
+  plan: "IBM Watson Personality Insights Monthly Plan"
+  url: "https://gateway.watsonplatform.net/personality-insights/api"

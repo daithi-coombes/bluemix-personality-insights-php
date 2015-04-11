@@ -37,11 +37,21 @@ class RestAPI
         $url = $credentials['url'];
         StdOut::line("Connecting to {$url}...");
 
+        $client = new GuzzleHttp\Client(array(
+            'defaults' => array(
+                'auth' => array($credentials['username'], $credentials['password']),
+                'body' => "foobar not enought chars",
+            ),
+        ));
+        $client->post($url."/v2/profile");
+        die('dead');
+        /**
         $this->_response = $this->get($url, array(
             'api_key' => base64_encode($credentials['username'] . ':' . $credentials['password']),
             'username' => $credentials['username'],
             'password' => $credentials['password'],
         ));
+        */
 
         $callback($this->_response);
     }
@@ -50,7 +60,7 @@ class RestAPI
     {
 
         $res = $this->getWorker()  //get GuzzleHttp instance
-            ->get($url, array(
+            ->post($url, array(
                 'query' => $params,
             ));
 

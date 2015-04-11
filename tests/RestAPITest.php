@@ -31,7 +31,7 @@ There is nothing surprising in this. If they but knew it, almost all men in thei
 other, cherish very nearly the same feelings towards the ocean with me.
 
 There now is your insular city of the Manhattoes, belted round by wharves as Indian isles by coral
-reefs-commerce surrounds it with her surf. Right and left, the streets take you waterward. Its extreme 
+reefs-commerce surrounds it with her surf. Right and left, the streets take you waterward. Its extreme
 downtown is the battery, where that noble mole is washed by waves, and cooled by breezes, which a few
 hours previous were out of sight of land. Look at the crowds of water-gazers there.
 
@@ -58,7 +58,7 @@ Should you ever be athirst in the great American desert, try this experiment, if
 be supplied with a metaphysical professor. Yes, as every one knows, meditation and water are wedded for
 ever.
 
-But here is an artist. He desires to paint you the dreamiest, shadiest, quietest, most enchanting bit 
+But here is an artist. He desires to paint you the dreamiest, shadiest, quietest, most enchanting bit
 of romantic landscape in all the valley of the Saco. What is the chief element he employs? There stand
 his trees, each with a hollow trunk, as if a hermit and a crucifix were within; and here sleeps his
 meadow, and there sleep his cattle; and up from yonder cottage goes a sleepy smoke. Deep into distant
@@ -163,21 +163,24 @@ hill in the air.'));
         $credentials = $config->getParams()['credentials'];
         $url = $credentials['url'] . '/v2/profile';
 
-        $client = new \GuzzleHttp\Client();
+        //$client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client(array(
+            'defaults' => array(
+                'auth' => array($credentials['username'], $credentials['password']),
+            ),
+        ));
 
-        $request = $client->post(
+        $response = $client->post(
             $url,
             array(
-                'auth' => array($credentials['username'], $credentials['password']),
-                'debug' => true,
-            ), 
-            $blob
+                'body' => $blob,
+                'headers' => array('Content-Type' => 'text/plain'),
+                'future' => true,
+            )
         );
-        $request->addHeader('Content-Type', 'application/json');
-        $request->addHeader('Accept','text/csv');
 
-        $response = $request->send();
-        var_dump($response);
+        echo $response->getBody();
+
         die();
 
         $actual = RestAPI::factory()

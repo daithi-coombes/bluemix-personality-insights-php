@@ -19,9 +19,6 @@ class TestRestAPI extends \PHPUnit_Framework_TestCase
         $credentials = $config->getParams()['credentials'];
     }
 
-    /**
-     * @group foo
-     */
     public function testFactory()
     {
         global $config;
@@ -37,39 +34,17 @@ class TestRestAPI extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($expected, $actual);
     }
 
-    public function testPostBlob()
+    public function testAnalyzeBlob()
     {
-        global $credentials;
-
-        //vars
+        global $config;
         $text = file_get_contents('tests/sampleText.txt');
-        $body = json_encode(array(
-            'data' => $text
-        ));
-        $url = $credentials['url'] . '/v2/profile';
 
-        //setup client
-        $client = RestAPI::factory($config);
-
-        $result = RestAPI::post($url, $options);
-        $client = new \GuzzleHttp\Client(array(
-            'defaults' => array(
-                'auth' => array($credentials['username'], $credentials['password']),
-            ),
-        ));
-
-        //make request
-        $response = $client->post(
-            $url,
-            array(
-                'body' => $body,
-                'headers' => array('Content-Type' => 'text/plain'),
-            )
-        );
-
-        //test response
+        $response = RestAPI::factory($config)
+            ->analyzeBlob($text);
         $actual = $response->getStatusCode();
         $expected = 200;
+
         $this->assertEquals($expected, $actual);
     }
+
 }

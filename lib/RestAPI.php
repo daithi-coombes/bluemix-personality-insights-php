@@ -27,10 +27,32 @@ class RestAPI
      */
     public static function factory(Config $config)
     {
+
         $obj = new RestAPI;
         $obj->setupWorker($config);
 
-        return new RestAPI();
+        return $obj;
+    }
+
+    /**
+     * Analayze a blob of text.
+     * @param string $text The text to analyze
+     * @return object Returns the response object of the Client library used.
+     */
+    public function analyzeBlob($text)
+    {
+
+        $config = Config::getInstance();
+        $url = $config->getParams()['credentials']['url']
+             . '/v2/profile';
+
+        return $this->_worker->post(
+            $url,
+            array(
+                'body' => $text,
+                'headers' => array('Content-Type' => 'text/plain'),
+            )
+        );
     }
 
     /**

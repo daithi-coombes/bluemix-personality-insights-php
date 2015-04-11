@@ -20,26 +20,23 @@ class TestRestAPI extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers connect()
-     * @covers getResult()
-     */
-    public function testAuthentication()
-    {
-
-
-        die();
-
-        $actual = RestAPI::factory()
-            ->connect(Config::getInstance())
-            ->getResult();
-        $expected = array('http-code', '200');
-
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
      * @group foo
      */
+    public function testFactory()
+    {
+        global $config;
+
+        //test RestAPI constructed
+        $actual = RestAPI::factory($config);
+        $expected = '\\PersonalityInsightsPHP\RestAPI';
+        $this->assertInstanceOf($expected, $actual);
+
+        //test client setup
+        $actual = $actual->getWorker();
+        $expected = '\\GuzzleHttp\\Client';
+        $this->assertInstanceOf($expected, $actual);
+    }
+
     public function testPostBlob()
     {
         global $credentials;
@@ -52,6 +49,9 @@ class TestRestAPI extends \PHPUnit_Framework_TestCase
         $url = $credentials['url'] . '/v2/profile';
 
         //setup client
+        $client = RestAPI::factory($config);
+
+        $result = RestAPI::post($url, $options);
         $client = new \GuzzleHttp\Client(array(
             'defaults' => array(
                 'auth' => array($credentials['username'], $credentials['password']),

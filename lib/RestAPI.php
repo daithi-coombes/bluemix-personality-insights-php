@@ -4,6 +4,7 @@
  */
 namespace PersonalityInsightsPHP;
 use PersonalityInsightsPHP;
+use PersonalityInsightsPHP\Config;
 use GuzzleHttp;
 
 /**
@@ -18,72 +19,47 @@ class RestAPI
 
     public function __construct()
     {
-        $this->getWorker();
     }
 
-    public static function factory()
+    /**
+     * Factory method
+     * @return RestAPI Returns new instance.
+     */
+    public static function factory(Config $config)
     {
+        $obj = new RestAPI;
+        $obj->setupWorker($config);
+
         return new RestAPI();
     }
 
     /**
-     * Connect/Authenticate user.
-     * @param Config $config The configuration instance.
-     * @return RestAPI Returns this instance.
+     * Get the current worker.
+     * @return object
      */
-    public function connect(PersonalityInsightsPHP\Config $config)
+    public function getWorker()
     {
-        $credentials = $config->getParams()['credentials'];
-        $url = $credentials['url'];
-        StdOut::line("Connecting to {$url}...");
-
-        $client = new GuzzleHttp\Client(array(
-            'defaults' => array(
-                'auth' => array($credentials['username'], $credentials['password']),
-                'body' => "foobar not enought chars",
-            ),
-        ));
-        $client->post($url."/v2/profile");
-        die('dead');
-        /**
-        $this->_response = $this->get($url, array(
-            'api_key' => base64_encode($credentials['username'] . ':' . $credentials['password']),
-            'username' => $credentials['username'],
-            'password' => $credentials['password'],
-        ));
-        */
-
-        $callback($this->_response);
-    }
-
-    public function get($url, $params=array())
-    {
-
-        $res = $this->getWorker()  //get GuzzleHttp instance
-            ->post($url, array(
-                'query' => $params,
-            ));
-
-        var_dump($res->getBody);
-    }
-
-    public function getResult($part='body')
-    {
-        if ($part=='body') {
-            return $this->_response->getBody();
-        }
-        return $this->_response;
-    }
-
-    /**
-     * Setup worker, if needed
-     */
-    private function getWorker()
-    {
-        if (!$this->_worker instanceOf GuzzleHttp\Client) {
-            $this->_worker = new GuzzleHttp\Client();
+        if ($this->_worker===null) {
+            $config = Config::getInstance();
+            $this->setupWorker($config);
         }
 
         return $this->_worker;
+    }
+
+    /**
+     * Constructs the middleware REST client library.
+     * @param Config $config The configuration singleton.
+     */
+    public function setupWorker(Config $config)
+    {
+
+        $credentials = $config->getParams()['credentials'];
+
+        $this->_worker = new \GuzzleHttp\Client(array(
+            'defaults' => array(
+                'auth' => array($credentials['username'], $credentials['password']),
+            ),
+        ));
     }
 }

@@ -10,38 +10,22 @@
 class TestRestAPI extends \PHPUnit_Framework_TestCase
 {
 
+    function setUp()
+    {
+        global $config,
+            $credentials;
+
+        $config = Config::getInstance();
+        $credentials = $config->getParams()['credentials'];
+    }
+
     /**
      * @covers connect()
      * @covers getResult()
-     * @group foo
      */
     public function testAuthentication()
     {
 
-        $text = file_get_contents('tests/sampleText.txt'),
-        $body = json_encode(array(
-            'data' => $text
-        ));
-        $config = Config::getInstance();
-        $credentials = $config->getParams()['credentials'];
-        $url = $credentials['url'] . '/v2/profile';
-
-        $client = new \GuzzleHttp\Client(array(
-            'defaults' => array(
-                'auth' => array($credentials['username'], $credentials['password']),
-            ),
-        ));
-
-        $response = $client->post(
-            $url,
-            array(
-                'body' => $blob,
-                'headers' => array('Content-Type' => 'text/plain'),
-                'future' => true,
-            )
-        );
-
-        echo $response->getBody();
 
         die();
 
@@ -51,5 +35,41 @@ class TestRestAPI extends \PHPUnit_Framework_TestCase
         $expected = array('http-code', '200');
 
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * @group foo
+     */
+    public function testPostBlob()
+    {
+        global $credentials;
+
+        //vars
+        $text = file_get_contents('tests/sampleText.txt');
+        $body = json_encode(array(
+            'data' => $text
+        ));
+        $url = $credentials['url'] . '/v2/profile';
+
+        //setup client
+        $client = new \GuzzleHttp\Client(array(
+            'defaults' => array(
+                'auth' => array($credentials['username'], $credentials['password']),
+            ),
+        ));
+
+        //make request
+        $response = $client->post(
+            $url,
+            array(
+                'body' => $body,
+                'headers' => array('Content-Type' => 'text/plain'),
+            )
+        );
+
+        //test response
+        $actual = $response->getStatusCode();
+        $expected = 200;
+        $this->assertEquals($expected, $actual);
     }
 }

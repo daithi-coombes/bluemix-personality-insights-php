@@ -4,6 +4,9 @@
  */
  namespace PersonalityInsightsPHPTest;
  use PersonalityInsightsPHP;
+ use PersonalityInsightsPHP\Authentication;
+ use PersonalityInsightsPHP\Config;
+ use PersonalityInsightsPHP\RestAPI;
 
 class TestAuthentication extends \PHPUnit_Framework_TestCase
 {
@@ -17,16 +20,8 @@ class TestAuthentication extends \PHPUnit_Framework_TestCase
         global $config,
             $client;
 
-        $config = PersonalityInsightsPHP\Config::getInstance();
         $client = new \GuzzleHttp\Client();
-
-        $auth_reflection = new \ReflectionClass("PersonalityInsightsPHP\Authentication");
-        $actual = $auth_reflection->getProperty('_config');
-        $actual->setAccessible(true);
-
-        $auth = new PersonalityInsightsPHP\Authentication( $config );
-
-        $this->assertSame($config, $actual->getValue($auth) );
+        $config = Config::getInstance();
     }
 
     /**
@@ -34,17 +29,27 @@ class TestAuthentication extends \PHPUnit_Framework_TestCase
      */
     public function testConfigSet()
     {
-        $config = PersonalityInsightsPHP\Config::getInstance();
-        $auth = new PersonalityInsightsPHP\Authentication( $config );
+        $config = Config::getInstance();
+
+        $auth_reflection = new \ReflectionClass("PersonalityInsightsPHP\Authentication");
+        $actual = $auth_reflection->getProperty('_config');
+        $actual->setAccessible(true);
+
+        $auth = new Authentication( $config );
+
+        $this->assertSame($config, $actual->getValue($auth) );
     }
 
     /**
-     * @depends testConfigSet()
+     * @covers connect()
      */
     public function testAuthenticate()
     {
+        global $config;
 
-        $auth = new PersonalityInsightsPHP\Authentication( $config );
+        $auth = Authentication::factory( $config )
+            ->connect(new RestAPI);
+        var_dump($auth);
         $actual = $auth->getResult();
         $expected = json_encode(array());
 

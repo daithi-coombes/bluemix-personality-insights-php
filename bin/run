@@ -1,0 +1,18 @@
+#!/usr/bin/php
+<?php
+namespace FooBar;
+//bootstrap
+require_once('bootstrap.php');
+
+use \PersonalityInsightsPHP;
+use \PersonalityInsightsPHP\RestAPI;
+use \PersonalityInsightsPHP\Config;
+
+$params = $argv;
+
+RestAPI::factory()
+    ->connect(Config::getInstance(), function($res){
+
+        $body = $res->getResult();
+        var_dump($body);
+    });

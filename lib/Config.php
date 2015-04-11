@@ -36,6 +36,11 @@ class Config
         return $instance;
     }
 
+    public function getParam($param)
+    {
+        return $this->_configuration['credentials'][$param];
+    }
+
     /**
      * Get the current configuration parameters.
      * @return array Returns an associative array.

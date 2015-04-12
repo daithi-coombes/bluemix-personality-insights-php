@@ -1,6 +1,7 @@
 {
     "name": "daithi/bluemix-php",
     "version": "0.0.1",
+    "license": "MIT",
     "dist": {
         "type": "git",
         "url": "git://github.com/daithi-coombes/bluemix-personality-insights-php.git"

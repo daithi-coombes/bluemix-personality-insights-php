@@ -15,6 +15,19 @@ Documentation on the Personality Insights API can be found here: [Rest API Docum
 git clone https://github.com/daithi-coombes/bluemix-personality-insights-php
 ```
 
+# add credentials
+```bash
+cp -a config.yml.dist config.yml
+```
+Enter in your `IBM Bluemix` credentials into `config.yml`. Make sure you include
+your `username`, `password` and the `url` to the `Personality Inights` service
+on your account.
+
+# run sample
+```bash
+php bin/run
+```
+
 # run tests
 ```
 cd bluemix-personality-insights-php

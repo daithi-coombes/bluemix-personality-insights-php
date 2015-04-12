@@ -18,10 +18,9 @@ for ($x=0;$x<10;$x++) {
     Stdout::line("\n");
 }
 
+$blob = file_get_contents('tests/sampleText.txt');
 
-RestAPI::factory()
-    ->connect(Config::getInstance(), function($res){
+$response = RestAPI::factory(Config::getInstance())
+    ->analyzeBlob($blob);
 
-        $body = $res->getResult();
-        var_dump($body);
-    });
+echo $response->getBody();

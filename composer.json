@@ -4,7 +4,7 @@
     "dist": {
         "type": "git",
         "url": "git://github.com/daithi-coombes/bluemix-personality-insights-php.git",
-    }
+    },
     "require-dev": {
         "guzzlehttp/guzzle"                 : "~5.0",
         "phpunit/phpunit"                   : "*",
